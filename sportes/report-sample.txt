@@ -1,0 +1,13 @@
+Big Data-Based Physical Education Assessment and Optimization System
+---------------------------------------------------------------
+Report generated as a static demo file.
+
+Summary:
+- Score trend rising into the top quartile
+- Attendance average remains above 90%
+- Personalized training recommendations available
+
+Top Outcomes:
+1. Improved performance consistency
+2. AI-driven suggestions issued
+3. Static report preview for frontend demo

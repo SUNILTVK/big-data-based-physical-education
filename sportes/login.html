@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Login - BD-PE A&O</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <header class="navbar"><a class="brand" href="index.html">BD-PE A&O</a></header>
+    <main style="padding:40px;display:flex;justify-content:center;align-items:flex-start">
+      <div class="glass" style="padding:22px;max-width:460px;width:100%">
+        <h2>Teacher / Student Login</h2>
+        <div style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap">
+          <button id="onlineMode" class="btn neon" type="button">Online Login</button>
+          <button id="offlineMode" class="btn glass" type="button">Offline Admin Login</button>
+        </div>
+        <form id="loginForm">
+          <label>Email</label>
+          <input id="emailInput" type="email" name="email" style="width:100%;padding:10px;margin-top:6px;margin-bottom:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06)" placeholder="you@school.edu" required>
+          <label>Password</label>
+          <input id="passwordInput" type="password" name="password" style="width:100%;padding:10px;margin-top:6px;margin-bottom:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.06)" required>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+            <button id="submitButton" type="submit" class="btn neon">Login Offline</button>
+            <a id="registerLink" class="btn glass" href="register.html" style="display:none">Register</a>
+          </div>
+          <p id="modeHint" style="margin-top:14px;color:#9ff;font-size:14px;line-height:1.5">Use online login to sync with live services. Offline login is admin-only.</p>
+        </form>
+        <div id="loginMessage" style="margin-top:16px;color:#9ff;font-size:14px"></div>
+      </div>
+    </main>
+    <script>
+      const loginForm = document.getElementById('loginForm');
+      const loginMessage = document.getElementById('loginMessage');
+      const onlineMode = document.getElementById('onlineMode');
+      const offlineMode = document.getElementById('offlineMode');
+      const submitButton = document.getElementById('submitButton');
+      const registerLink = document.getElementById('registerLink');
+      const modeHint = document.getElementById('modeHint');
+      let loginMode = 'online';
+
+      const ADMIN_CREDENTIALS = {
+        email: 'admin@bdpe.com',
+        password: 'admin123'
+      };
+
+      function setMode(mode) {
+        loginMode = mode;
+        if (mode === 'offline') {
+          onlineMode.classList.replace('btn','glass');
+          onlineMode.classList.replace('neon','glass');
+          offlineMode.classList.replace('btn','neon');
+          offlineMode.classList.replace('glass','neon');
+          submitButton.textContent = 'Login Offline';
+          registerLink.style.display = 'none';
+          modeHint.textContent = 'Offline login is admin-only and works without backend connectivity.';
+        } else {
+          onlineMode.classList.replace('glass','neon');
+          onlineMode.classList.replace('btn','neon');
+          offlineMode.classList.replace('neon','glass');
+          submitButton.textContent = 'Login Online';
+          registerLink.style.display = 'inline-flex';
+          modeHint.textContent = 'Use online login with backend services. Offline login is admin-only.';
+        }
+      }
+
+      onlineMode.addEventListener('click', () => setMode('online'));
+      offlineMode.addEventListener('click', () => setMode('offline'));
+      setMode('online');
+
+      loginForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        if (loginMode === 'offline') {
+          const email = document.getElementById('emailInput').value.trim().toLowerCase();
+          const password = document.getElementById('passwordInput').value;
+          if (email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password) {
+            loginMessage.textContent = 'Offline admin login successful. Redirecting...';
+            setTimeout(() => window.location.href = 'index.html', 800);
+          } else {
+            loginMessage.textContent = 'Offline login failed. Use admin credentials.';
+          }
+          return;
+        }
+        loginMessage.textContent = 'Online login is not available in the static version.';
+      });
+    </script>
+  </body>
+</html>
